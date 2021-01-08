@@ -7,6 +7,6 @@ namespace LocalAccounts
 {
     public class Keys
     {
-           public static string secretkey = "6LfZVyQaAAAAAJt1PY61ldkwHEnXfdx18EAqR7Yv";
+           public static string secretkey = "";
     }
 }

@@ -1,10 +1,10 @@
 ﻿@section Scripts {
     @Scripts.Render("~/bundles/app") <!-- Added from github -->
 
-    <script src="https://www.google.com/recaptcha/api.js?render=6LfZVyQaAAAAAFJY0nHZ1jfyMDaTxZnQAafMbTPL"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render="></script>
     <script type="text/javascript">
         grecaptcha.ready(function () {
-            grecaptcha.execute('6LfZVyQaAAAAAFJY0nHZ1jfyMDaTxZnQAafMbTPL', { action: 'login' }).then(function (token) {
+            grecaptcha.execute('', { action: 'login' }).then(function (token) {
                 console.log(token);
             });
         });
