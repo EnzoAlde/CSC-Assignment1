@@ -1,5 +1,5 @@
-var clarifaiApiKey = '9925acd91b92483988e7b54601e36a9e';
-var workflowId = 'Visual-Text-Recognition';
+var clarifaiApiKey = '{CLARIFAI APIKEY}';
+var workflowId = '{WORKFLOW ID}';
 
 var app = new Clarifai.App({
     apiKey: clarifaiApiKey
