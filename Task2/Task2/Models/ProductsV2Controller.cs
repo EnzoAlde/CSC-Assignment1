@@ -13,8 +13,7 @@ namespace Task2.Models
     {
         static readonly IProductRepository repository = new ProductRepository();
 
-        //Version 3
-        //[Authorize]
+        //[Authorize] Start of GET method for getting all products
         [System.Web.Http.HttpGet]
         [System.Web.Http.Route("api/v3/products")]
         public IEnumerable<Product> GetAllProductsFromRepository()
@@ -22,18 +21,8 @@ namespace Task2.Models
             return repository.GetAll();
 
         }
-        //Route constraints let you restrict how the parameters in the route template are matched. 
-        //The general syntax is "{parameter:constraint}".
-        //Constraints on URL parameters
 
-        //We can even restrict the template placeholder to the type of parameter it can have. 
-        //For example, we can restrict that the request will be only served if the id is greater than 2.
-        //Otherwise the request will not work. For this, we will apply multiple constraints in the same request:
-
-
-        //Type of the parameter id must be an integer.
-        //id should be greater than 2.
-        //http://localhost:9000/api/v3/products/1 404 error code
+        //Start of GET method for specific product
         [System.Web.Http.HttpGet]
         [System.Web.Http.Route("api/v3/products/{id}", Name = "getProductByIdv3")]
 
@@ -47,11 +36,11 @@ namespace Task2.Models
             return item;
         }
 
-
+        //Start of GET method for Categories
         [System.Web.Http.HttpGet]
         [System.Web.Http.Route("api/v3/products", Name = "getProductByCategoryv3")]
-        //http://localhost:9000/api/v3/products?category=
-        //http://localhost:9000/api/v3/products?category=Groceries
+        //http://localhost:44333/v3/products?category=
+        //http://localhost:44333/v3/products?category=Groceries
 
         public IEnumerable<Product> GetProductsByCategory(string category)
         {
@@ -59,11 +48,7 @@ namespace Task2.Models
                 p => string.Equals(p.Category, category, StringComparison.OrdinalIgnoreCase));
         }
 
-
-        //Response code: By default, the Web API framework sets the response status code to 200 (OK). 
-        //But according to the HTTP/1.1 protocol, when a POST request results in the creation of a resource, the server should reply with status 201 (Created).
-        //Location: When the server creates a resource, it should include the URI of the new resource in the Location header of the response.
-
+        //Start of POST method for creating new products
         [System.Web.Http.HttpPost]
         [System.Web.Http.Route("api/v3/products")]
         public HttpResponseMessage PostProduct(Product item)
@@ -86,11 +71,7 @@ namespace Task2.Models
         }
 
 
-
-
-
-
-
+        //Start of PUT method for updating product
         [System.Web.Http.HttpPut]
         [System.Web.Http.Route("api/v3/products/{id:int}")]
         public void PutProduct(int id, Product product)
@@ -102,6 +83,7 @@ namespace Task2.Models
             }
         }
 
+        //Start of DELETE method for removing product
         [System.Web.Http.HttpDelete]
         [System.Web.Http.Route("api/v3/products/{id:int}")]
         public void DeleteProduct(int id)
