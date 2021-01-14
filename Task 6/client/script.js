@@ -26,15 +26,28 @@ var createCheckoutSession = function(priceId) {
   }).then(handleFetchResult);
 };
 
-var updateSubscription = function(id) {
+var updateSubscription = function(priceId) {
   return fetch("/update-subscription", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
+      subId: document.getElementById("subId").value,
       id:'sub_IibIuSQFOWxOnb',
-      priceId: 'price_1I6s3dJG1WFc8J7WzlJit1E8'     
+      priceId: priceId     
+    })
+  }).then(handleFetchResult);
+};
+
+var deleteSubscription = function(subId) {
+  return fetch("/delete-subscription", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      subId: subId,   
     })
   }).then(handleFetchResult);
 };
@@ -58,6 +71,7 @@ fetch("/setup")
   .then(function(json) {
     var publishableKey = json.publishableKey;
     var basicPriceId = json.basicPrice;
+    var mediumPriceId = json.mediumPrice;
     var proPriceId = json.proPrice;
 
     var stripe = Stripe(publishableKey);
@@ -77,6 +91,19 @@ fetch("/setup")
 
     // Setup event handler to create a Checkout Session when button is clicked
     document
+      .getElementById("medium-plan-btn")
+      .addEventListener("click", function(evt) {
+        createCheckoutSession(mediumPriceId).then(function(data) {
+          // Call Stripe.js method to redirect to the new Checkout page
+          stripe
+            .redirectToCheckout({
+              sessionId: data.sessionId
+            })
+            .then(handleResult);
+        });
+      });
+
+    document
       .getElementById("pro-plan-btn")
       .addEventListener("click", function(evt) {
         createCheckoutSession(proPriceId).then(function(data) {
@@ -90,7 +117,33 @@ fetch("/setup")
       });
 
     document
-    .getElementById("edit-sub")
+    .getElementById("edit-sub-daily")
+    .addEventListener("click", function(evt) {
+      updateSubscription(basicPriceId).then(function(data) {
+        // Call Stripe.js method to redirect to the new Checkout page
+        stripe
+          .redirectToCheckout({
+            sessionId: data.sessionId
+          })
+          .then(handleResult);
+      });
+    });
+
+    document
+    .getElementById("edit-sub-weekly")
+    .addEventListener("click", function(evt) {
+      updateSubscription(mediumPriceId).then(function(data) {
+        // Call Stripe.js method to redirect to the new Checkout page
+        stripe
+          .redirectToCheckout({
+            sessionId: data.sessionId
+          })
+          .then(handleResult);
+      });
+    });
+
+    document
+    .getElementById("edit-sub-monthly")
     .addEventListener("click", function(evt) {
       updateSubscription(proPriceId).then(function(data) {
         // Call Stripe.js method to redirect to the new Checkout page
@@ -101,4 +154,18 @@ fetch("/setup")
           .then(handleResult);
       });
     });
+
+    document
+      .getElementById("cancel-sub")
+      .addEventListener("click", function(evt) {
+        deleteSubscription(document.getElementById("cancelsub").value).then(function(data) {
+          // Call Stripe.js method to redirect to the new Checkout page
+          stripe
+            .redirectToCheckout({
+              sessionId: data.sessionId
+            })
+            .then(handleResult);
+        });
+      });
+
   });

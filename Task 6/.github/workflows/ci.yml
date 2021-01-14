@@ -32,6 +32,7 @@ jobs:
           cat <<EOF >> .env
           DOMAIN=http://web:4242
           BASIC_PRICE_ID=${BASIC}
+          MEDIUM_PRICE_ID=${MEDIUM}
           PRO_PRICE_ID=${PREMIUM}
           EOF
 
@@ -49,6 +50,7 @@ jobs:
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
           PREMIUM: price_1HXyXwCWW2eVYDoPnnTQ02VO
+          MEDIUM: price_1I6s3dJG1WFc8J7WzlJit1E8
           BASIC: price_1HXyVBCWW2eVYDoPtXcEdXfw
 
       - name: Collect debug information
@@ -61,4 +63,5 @@ jobs:
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
           PREMIUM: price_1HXyXwCWW2eVYDoPnnTQ02VO
+          MEDIUM: price_1I6s3dJG1WFc8J7WzlJit1E8
           BASIC: price_1HXyVBCWW2eVYDoPtXcEdXfw

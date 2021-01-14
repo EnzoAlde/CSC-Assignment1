@@ -75,14 +75,14 @@ app.post("/create-checkout-session", async (req, res) => {
 });
 
 app.post("/update-subscription", async (req, res) =>{
+  const { subId } = req.body;
+  const { priceId } = req.body;
   try{
-    const subscription = stripe.subscriptions.retrieve('sub_49ty4767H20z6a');
-    stripe.subscription.update('sub_IibIuSQFOWxOnb', {
-      cancel_at_period_end: false,
+    stripe.subscriptions.update(subId, {
       proration_behavior: 'create_prorations',
       items: [{
-        id: subscription.items.data[0].id,
-        price: 'price_1I6s3dJG1WFc8J7WzlJit1E8',
+        id: 'si_IkrDA4ZWeIQE2h',
+        price: priceId,
       }]
     });
   }catch(e){
@@ -96,10 +96,28 @@ app.post("/update-subscription", async (req, res) =>{
   }
 })
 
+app.delete("/delete-subscription", async (req, res) =>{
+  const { subId } = req.body;
+  console.log(subId);
+  try{
+    stripe.subscriptions.del(subId);   
+  }catch(e){
+    console.log(e);
+    res.status(400);
+    return res.send({
+      error: {
+        message: e.message,
+      }
+    });
+  }
+})
+
+
 app.get("/setup", (req, res) => {
   res.send({
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     basicPrice: process.env.BASIC_PRICE_ID,
+    mediumPrice: process.env.MEDIUM_PRICE_ID,
     proPrice: process.env.PRO_PRICE_ID,
   });
 });
